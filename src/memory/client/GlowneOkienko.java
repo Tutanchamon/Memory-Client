@@ -10,7 +10,16 @@
  */
 package memory.client;
 
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,12 +29,21 @@ public class GlowneOkienko extends javax.swing.JFrame {
 
  /* atrybuty klasy */
     PrintWriter out = MemoryClient.out;
+    BufferedReader in = MemoryClient.in;
     
  /******************/
     
     /** Creates new form GlowneOkienko */
     public GlowneOkienko() {
         initComponents();
+        /* try {
+            w = in.readLine();
+            this.jTextArea1.setText(w);
+        } catch (IOException ex) {
+            Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
+        getFile();
+        
     }
 
     /** This method is called from within the constructor to
@@ -45,6 +63,7 @@ public class GlowneOkienko extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Okienko");
 
         jPanel2.setLayout(new java.awt.CardLayout());
         getContentPane().add(jPanel2, java.awt.BorderLayout.NORTH);
@@ -91,8 +110,71 @@ public class GlowneOkienko extends javax.swing.JFrame {
         String s = this.jTextField1.getText();
         out.println(s);
         this.jTextField1.setText("");
+        
+       /* try {
+        String w = in.readLine();
+        this.jTextArea1.setText(w);
+        }
+        catch (IOException ex){
+            ex.printStackTrace();
+        }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
+   private void getFile(){
+       int rozmiar;
+       int odczytane;
+       byte[] mybytearray = new byte[1024];
+       try {
+           InputStream buf = MemoryClient.is;
+      /*     //System.out.println("Wczytuję z ina");
+                       
+
+           InputStream is = MemoryClient.is;
+           FileOutputStream fos = new FileOutputStream("a.jpg");
+           BufferedOutputStream bos = new BufferedOutputStream(fos);
+       byte[] size = new byte[10];
+       odczytane = is.read(size, 0, 5);
+       System.out.println("Odczytane to: "+odczytane);
+       String tresc = size.toString();
+       System.out.println("Co jest w size: ");
+       for (int i=0; i<5; i++){
+           System.out.print(size[i]);
+       }
+        //   System.out.println("Tworzę FileWritera");
+          // FileWriter f0 = new FileWriter(new File("b.jpg"));
+           
+           System.out.println("Piszę se do plika");
+           //f0.write(w);  
+           int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+           
+           System.out.println("Zapisuję se plika");
+          // f0.close();
+           //bos.write(mybytearray, 0, bytesRead);
+          // bos.close();
+            * 
+            */
+           int count; 
+           byte[] buffer = new byte[8192]; 
+           FileOutputStream fos = new FileOutputStream("a.gif");
+           BufferedOutputStream bos = new BufferedOutputStream(fos);
+           
+           while ((count = buf.read(buffer)) > 0){               
+               System.out.print("Cos tam odczytuje");
+               bos.write(buffer, 0, count);
+               for (int i=0; i < buffer.length; i++){
+           System.out.print(buffer[i]);
+            }
+           
+           }
+           bos.close();
+           fos.close();
+       }
+       catch (Exception ex){
+           ex.printStackTrace();
+       }
+   }
+    
+    
     /**
      * @param args the command line arguments
      */

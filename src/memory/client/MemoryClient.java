@@ -5,7 +5,9 @@
 package memory.client;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
 
 /**
  *
@@ -20,6 +22,8 @@ public class MemoryClient {
     // atrybuty klasy głównej
    public static BufferedReader in;
    public static PrintWriter out;
+   public static Socket sock;
+   public static InputStream is;
     
             
     public static void main(String[] args) {
@@ -30,8 +34,10 @@ public class MemoryClient {
         
         
         SocketConnection sc = new SocketConnection (args[0], args[1]);
-        in = sc.getIn();
+        //in = sc.getIn();
+        is = sc.getIs();
         out = sc.getOut();
+        sock = sc.getSock();
         GlowneOkienko go = new GlowneOkienko();
         go.setVisible(true);
     }
