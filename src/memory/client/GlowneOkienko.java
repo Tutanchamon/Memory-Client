@@ -121,57 +121,97 @@ public class GlowneOkienko extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
    private void getFile(){
-       int rozmiar;
-       int odczytane;
-       byte[] mybytearray = new byte[1024];
+       double rozmiar;
+       
        try {
            InputStream buf = MemoryClient.is;
-      /*     //System.out.println("Wczytuję z ina");
-                       
-
-           InputStream is = MemoryClient.is;
-           FileOutputStream fos = new FileOutputStream("a.jpg");
-           BufferedOutputStream bos = new BufferedOutputStream(fos);
-       byte[] size = new byte[10];
-       odczytane = is.read(size, 0, 5);
-       System.out.println("Odczytane to: "+odczytane);
-       String tresc = size.toString();
-       System.out.println("Co jest w size: ");
-       for (int i=0; i<5; i++){
-           System.out.print(size[i]);
-       }
-        //   System.out.println("Tworzę FileWritera");
-          // FileWriter f0 = new FileWriter(new File("b.jpg"));
+      
+           int count;
+           int odebrano;
+           byte[] buffer = new byte[8]; 
            
-           System.out.println("Piszę se do plika");
-           //f0.write(w);  
-           int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-           
-           System.out.println("Zapisuję se plika");
-          // f0.close();
-           //bos.write(mybytearray, 0, bytesRead);
-          // bos.close();
-            * 
-            */
-           int count; 
-           byte[] buffer = new byte[8192]; 
-           FileOutputStream fos = new FileOutputStream("a.gif");
+           FileOutputStream fos = new FileOutputStream("lody.jpg");
            BufferedOutputStream bos = new BufferedOutputStream(fos);
            
-           while ((count = buf.read(buffer)) > 0){               
-               System.out.print("Cos tam odczytuje");
-               bos.write(buffer, 0, count);
-               for (int i=0; i < buffer.length; i++){
-           System.out.print(buffer[i]);
+           // odbieranie rozmiaru pliku
+           odebrano = buf.read(buffer, 0, 8);
+           System.out.println();
+           for (int i=0; i < buffer.length; i++){
+                System.out.print(buffer[i]);
+                char mychar = (char) buffer[i];
+                   System.out.print(mychar);
+               }
+               System.out.println();
+               char[] charArr = (new String(buffer)).toCharArray();
+               for (int j=0; j < charArr.length; j++){
+                   System.out.print(charArr[j]);
+               }
+               System.out.println();
+               String rozmiartemp = String.copyValueOf(charArr);
+               System.out.println("Rozmiartemp: "+rozmiartemp);
+               rozmiar = Double.parseDouble(rozmiartemp);
+               System.out.println("Rozmiar pliku do pobrania wynosi: "+rozmiar);
+               count = 0;
+               
+            int odebrano_razem = 0;
+            int licznik = 0;
+            System.out.println("Wchodzę do pętli pobierania pliku");
+            while (odebrano_razem < rozmiar){
+                
+                byte[] dane = new byte[10240];
+                licznik = buf.read(dane, 0, dane.length);
+                if (licznik == 0) break;
+                else System.out.println("Pobrano "+licznik+" bajtów danych");
+                odebrano_razem += licznik;
+                System.out.println("Łącznie odebrano: "+odebrano_razem);
+                System.out.println("Dodawanie danych do pliku ");
+                bos.write(dane, 0, licznik);
+                                
+               }
+            if (odebrano_razem != rozmiar){
+                System.out.println("Błąd w odbiorze pliku");
             }
+            else {
+                System.out.println("Plik odebrany poprawnie");
+            }
+            System.out.println("Zamykam bos i fos");
+            bos.close();
+            fos.close();
+               // poprzednio
            
-           }
-           bos.close();
-           fos.close();
+           /*while ((count = buf.read(buffer)) > 0){               
+               System.out.println("Cos tam odczytuję:");
+               
+               bos.write(buffer, 0, count);
+               System.out.println("Poszedł bos.write()");
+               for (int i=0; i < buffer.length; i++){
+                System.out.print(buffer[i]);
+                char mychar = (char) buffer[i];
+                   System.out.print(mychar);
+               }
+               System.out.println();
+               char[] charArr = (new String(buffer)).toCharArray();
+               for (int j=0; j < charArr.length; j++){
+                   System.out.print(charArr[j]);
+               }
+               System.out.println();
+               String rozmiartemp = String.copyValueOf(charArr);
+               System.out.println("Rozmiartemp: "+rozmiartemp);
+               rozmiar = Double.parseDouble(rozmiartemp);
+               System.out.println("Rozmiar pliku do pobrania wynosi: "+rozmiar);
+               count = 0;
+           
+           }*/
+           
        }
-       catch (Exception ex){
+       catch (IOException ex){
            ex.printStackTrace();
        }
+       catch (NumberFormatException ex){
+           System.out.append("Wywołał się NumberFormatException: ");
+           ex.printStackTrace();
+       }
+       
    }
     
     
