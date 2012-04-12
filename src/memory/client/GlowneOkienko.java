@@ -42,6 +42,7 @@ this.jTextArea1.setText(w);
 Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
 }*/
         getFile();
+        getArrayElements();
         
     }
 
@@ -131,7 +132,41 @@ ex.printStackTrace();
            ex.printStackTrace();
        }
        
-   } 
+   }
+   
+   private void getArrayElements(){
+        int ilosc = 30;
+        
+        int[] tablica = new int[30];
+        byte[] bufor = new byte[2];
+        InputStream buf = MemoryClient.is;
+        for (int i = 0; i < ilosc; i++){
+            try {
+                //System.out.println("Próba nr "+i);
+            int received = buf.read(bufor, 0, bufor.length);
+            /*System.out.print("Zawartość bufora: ");
+            System.out.print(bufor[i]);
+            char mychar = (char) bufor[i];
+            System.out.print(mychar);*/
+            
+            System.out.println();
+            char[] charArr = (new String(bufor)).toCharArray();
+               String numer_karty = String.copyValueOf(charArr);
+              
+                 double numer1 = Double.parseDouble(numer_karty);
+                 int numer2 = (int) numer1;
+               
+               tablica[i] = numer2;
+               System.out.println("Proba numer: "+i+"\tString numer_karty: "+numer_karty+"\t int numer2: "+numer2+"\t tablica["+i+"]: "+tablica[i]);
+               
+               
+            }
+            catch (IOException ex){
+                ex.printStackTrace();
+            }
+            
+        }
+    }
     
     
    private void getFile(){
@@ -169,15 +204,20 @@ ex.printStackTrace();
                
             int odebrano_razem = 0;
             int licznik = 0;
+            int pozostalo = (int) rozmiar;
             System.out.println("Wchodzę do pętli pobierania pliku");
             while (odebrano_razem < rozmiar){
                 
                 byte[] dane = new byte[10240];
-                licznik = buf.read(dane, 0, dane.length);
-                if (licznik == 0) break;
+                
+                if (pozostalo >= dane.length) licznik = buf.read(dane, 0, dane.length);
+                if (pozostalo < dane.length) licznik = buf.read(dane, 0, pozostalo);
+                if (licznik == 0 || licznik == -1) break;
                 else System.out.println("Pobrano "+licznik+" bajtów danych");
                 odebrano_razem += licznik;
+                pozostalo -= licznik;
                 System.out.println("Łącznie odebrano: "+odebrano_razem);
+                System.out.println("Pozostało "+pozostalo);
                 System.out.println("Dodawanie danych do pliku ");
                 bos.write(dane, 0, licznik);
                                 
