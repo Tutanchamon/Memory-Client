@@ -41,7 +41,8 @@ this.jTextArea1.setText(w);
 } catch (IOException ex) {
 Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
 }*/
-        getFile();
+        fileLoop();
+        //getFile();
         getArrayElements();
         
     }
@@ -167,9 +168,22 @@ ex.printStackTrace();
             
         }
     }
+   private void fileLoop(){
+       PrintWriter pr = MemoryClient.out;
+       System.out.println("Wchodzę do pętli w fileLoop()");
+       for (int i = 0; i < 16; i++){
+           System.out.println("Wysyłam żądanie po plik "+i+".jpg");
+           pr.println(i+".jpg");
+           getFile(i+".jpg");
+       }
+       
+       //System.out.println("Wysyłam ENOUGH");
+       //pr.println("ENOUGH");
+   } 
+   
+   
     
-    
-   private void getFile(){
+   private void getFile(String filename){
        double rozmiar;
        
        try {
@@ -179,7 +193,8 @@ ex.printStackTrace();
            int odebrano;
            byte[] buffer = new byte[8];
            
-           FileOutputStream fos = new FileOutputStream("lody.jpg");
+           //FileOutputStream fos = new FileOutputStream("lody.jpg");
+             FileOutputStream fos = new FileOutputStream(filename);
            BufferedOutputStream bos = new BufferedOutputStream(fos);
            
            // odbieranie rozmiaru pliku
@@ -226,7 +241,7 @@ ex.printStackTrace();
                 System.out.println("Błąd w odbiorze pliku");
             }
             else {
-                System.out.println("Plik odebrany poprawnie");
+                System.out.println("Plik odebrany poprawnie i zapisany jako "+filename);
             }
             System.out.println("Zamykam bos i fos");
             bos.close();

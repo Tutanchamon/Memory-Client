@@ -1,21 +1,36 @@
 package memory.client;
 
 public class Card {
-    public int no;
-    public boolean revealed;
+    private int no;
+    private boolean revealed;
+    private String bgpath;
+    private String fgpath;
     
-    public Card(int number) {
+    public Card(int number, String fg) {
         no = number;
         revealed = false;
+        fgpath = fg;
+        bgpath = "00.jpg";
     }
     
-    public Card (Card c) {
-        Card card = new Card(c.no);
+    public Card(Card c) {
+        Card card = new Card(c.no, c.fgpath);
         card.revealed = c.revealed;
     }
     
     public void reveal(){
         this.revealed = true;
+    }
+    
+    public void unreveal(){
+        this.revealed = false;
+    }
+    
+    public boolean isRevealed() {
+        if(this.revealed == true) {
+            return true;
+        }
+        else return false;
     }
    
     public boolean equal(Card c){
@@ -32,5 +47,14 @@ public class Card {
         return true;
         }
         else return false;
+    }
+    
+    public String getPath(){
+        String path = "";
+        if(this.isRevealed()){
+            path = this.fgpath;
+        }
+        else path = this.bgpath;
+        return path;
     }
 }

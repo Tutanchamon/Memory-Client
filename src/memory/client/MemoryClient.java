@@ -40,5 +40,8 @@ public class MemoryClient {
         sock = sc.getSock();
         GlowneOkienko go = new GlowneOkienko();
         go.setVisible(true);
+        GameWindow gw = new GameWindow();
+        gw.setVisible(true);
+        gw.wyswietlPrzyciski(30);
     }
 }

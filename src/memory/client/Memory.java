@@ -6,9 +6,9 @@ import java.util.Random;
 public class Memory {
     public static Vector<Player> players = new Vector<Player>();
     public static Vector<Player> winners = new Vector<Player>();
-    public static Vector<Card> deck = new Vector<Card>();
     public static int pairs = 15;
     public static Vector<Card> deal = new Vector<Card>();
+    public static int[] permutation = new int[30];
 
     public static void initialise(){
         int gracze = 0;
@@ -55,33 +55,26 @@ public class Memory {
     public static int howManyCardsLeft() {
         int left = 0;
         for (int i = 0; i < deal.size(); i++) {
-            if (!deal.elementAt(i).revealed) {
+            if (!deal.elementAt(i).isRevealed()) {
                 left++;
             }
         }
         return left;
     }
     
-    public static void createDeck(int pairs) {
-        for (int i=1; i < 2*pairs; i++){
-            Card card1 = new Card(i);
-            Card card2 = new Card(card1);
-            deck.add(card1);
-            deck.add(card2);
+    public static void deal(){
+        for (int i = 0; i < permutation.length; i++){
+            Card c = new Card(permutation[i], "0" + permutation[i] + ".jpg");
+            deal.add(c);
         }
     }
     
-    public static void dealCards(){
-        
-    }
-    
-    public static void main(String[] args) {
+    public static void game(){
         int card1 = 0;
         int card2 = 0;
         
         initialise();
-        createDeck(pairs);
-        dealCards();
+        deal();
         while (howManyCardsLeft() > 0) {
             for (int i = 1; i <= players.size(); i++){
                 do {
