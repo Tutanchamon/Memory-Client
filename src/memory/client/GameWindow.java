@@ -10,6 +10,7 @@
  */
 package memory.client;
 
+import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -18,6 +19,8 @@ import javax.swing.JLabel;
  * @author blazej
  */
 public class GameWindow extends javax.swing.JFrame {
+    
+    public static Vector<Card> deal = new Vector<Card>();
 
     /** Creates new form GameWindow */
     public GameWindow() {
@@ -34,24 +37,37 @@ public class GameWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new java.awt.FlowLayout());
-        getContentPane().add(jPanel1);
+        setTitle("Memory");
+        setMinimumSize(new java.awt.Dimension(600, 600));
+
+        jPanel1.setMinimumSize(new java.awt.Dimension(400, 300));
+        jScrollPane1.setViewportView(jPanel1);
+
+        getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void uzupelnijKarty(){
+        for (int i = 0; i < 30; i++){
+            Card c = new Card(i, String.valueOf(MemoryClient.tablica[i]));
+            deal.add(c);
+        }
+    }
     
     public void wyswietlPrzyciski(int ilosc){
         CardButt[] butts = new CardButt[30];
         JButton[] przyciski = new JButton[ilosc];
         JLabel[] labels = new JLabel[ilosc];
         
-        for (CardButt button : butts){
-            button = new CardButt();
-            this.jPanel1.add(button);
+        jPanel1.setLayout(new java.awt.GridLayout(6, 5, 0, 0));
+        
+        for (int i = 0; i < 30; i++){
+            butts[i] = new CardButt(deal.get(i));
+            this.jPanel1.add(butts[i]);
         }
         
         
@@ -94,5 +110,6 @@ public class GameWindow extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

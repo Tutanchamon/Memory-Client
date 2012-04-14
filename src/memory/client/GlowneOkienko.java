@@ -160,7 +160,7 @@ ex.printStackTrace();
                tablica[i] = numer2;
                System.out.println("Proba numer: "+i+"\tString numer_karty: "+numer_karty+"\t int numer2: "+numer2+"\t tablica["+i+"]: "+tablica[i]);
                
-               
+               MemoryClient.tablica = tablica;
             }
             catch (IOException ex){
                 ex.printStackTrace();

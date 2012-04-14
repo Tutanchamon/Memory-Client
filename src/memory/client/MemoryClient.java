@@ -24,6 +24,7 @@ public class MemoryClient {
    public static PrintWriter out;
    public static Socket sock;
    public static InputStream is;
+   public static int[] tablica;
     
             
     public static void main(String[] args) {
@@ -42,6 +43,8 @@ public class MemoryClient {
         go.setVisible(true);
         GameWindow gw = new GameWindow();
         gw.setVisible(true);
+        gw.uzupelnijKarty();
         gw.wyswietlPrzyciski(30);
+        
     }
 }

@@ -3,14 +3,14 @@ package memory.client;
 public class Card {
     private int no;
     private boolean revealed;
-    private String bgpath;
-    private String fgpath;
+    public String bgpath;
+    public String fgpath;
     
     public Card(int number, String fg) {
         no = number;
         revealed = false;
         fgpath = fg;
-        bgpath = "00.jpg";
+        bgpath = "0";
     }
     
     public Card(Card c) {
@@ -52,9 +52,9 @@ public class Card {
     public String getPath(){
         String path = "";
         if(this.isRevealed()){
-            path = this.fgpath;
+            path = this.fgpath+".jpg";
         }
-        else path = this.bgpath;
+        else path = this.bgpath+".jpg";
         return path;
     }
 }
