@@ -25,6 +25,7 @@ public class MemoryClient {
    public static Socket sock;
    public static InputStream is;
    public static int[] tablica;
+   public static int numergracza;
     
             
     public static void main(String[] args) {

@@ -42,8 +42,8 @@ public class Card {
     }
     
     public static boolean equal(Card c1, Card c2){
-        if (c1.no == c2.no)
-        {
+        //if (c1.no == c2.no)
+        if (c1.fgpath.equals(c2.fgpath)){
         return true;
         }
         else return false;

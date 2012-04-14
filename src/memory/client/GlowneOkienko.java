@@ -44,6 +44,7 @@ Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
         fileLoop();
         //getFile();
         getArrayElements();
+        getMyNumber();
         
     }
 
@@ -85,7 +86,7 @@ Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 253, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addContainerGap())
         );
@@ -121,19 +122,31 @@ ex.printStackTrace();
 }*/
     }//GEN-LAST:event_jButton1ActionPerformed
 
-   private void getArray(){
-       try {
-           InputStream buf = MemoryClient.is;
-           int odebrano;
-           byte[] bufor = new byte[8];
-       }
+   public void addMessage(String s){
+       this.jTextArea1.append("\n"+s);
+   }
+   
+   private void getMyNumber(){
+       byte[] bufor = new byte[2];
+       InputStream buf = MemoryClient.is;
        
-       catch(Exception ex){
-           System.out.println("Błąd I/O");
+       try {
+       int received = buf.read(bufor, 0, bufor.length);
+       }
+       catch (IOException ex){
+           this.addMessage("Błąd podczas odbierania numeru gracza");
            ex.printStackTrace();
        }
+       char[] charArr = (new String(bufor)).toCharArray();
+       String ps = String.copyValueOf(charArr);
        
-   }
+       double numergracza1 = Double.parseDouble(ps);
+       int numergracza2 = (int) numergracza1;
+       
+       MemoryClient.numergracza = numergracza2;
+       this.addMessage("Mój numer to: "+MemoryClient.numergracza);
+   } 
+   
    
    private void getArrayElements(){
         int ilosc = 30;
@@ -170,8 +183,10 @@ ex.printStackTrace();
     }
    private void fileLoop(){
        PrintWriter pr = MemoryClient.out;
+       this.addMessage("Wchodzę do pętli w fileLoop()");
        System.out.println("Wchodzę do pętli w fileLoop()");
        for (int i = 0; i < 16; i++){
+           this.addMessage("Wysyłam żądanie po plik "+i+".jpg");
            System.out.println("Wysyłam żądanie po plik "+i+".jpg");
            pr.println(i+".jpg");
            getFile(i+".jpg");

@@ -11,8 +11,7 @@
 package memory.client;
 
 import java.util.Vector;
-import javax.swing.JButton;
-import javax.swing.JLabel;
+
 
 /**
  *
@@ -21,6 +20,10 @@ import javax.swing.JLabel;
 public class GameWindow extends javax.swing.JFrame {
     
     public static Vector<Card> deal = new Vector<Card>();
+    private static int selected = 0;
+    private static Card sCard1, sCard2;
+    private static CardButt[] butts = new CardButt[30];
+    
 
     /** Creates new form GameWindow */
     public GameWindow() {
@@ -39,6 +42,8 @@ public class GameWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Memory");
@@ -49,6 +54,11 @@ public class GameWindow extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
+        jLabel1.setText("jLabel1");
+        jPanel2.add(jLabel1);
+
+        getContentPane().add(jPanel2, java.awt.BorderLayout.EAST);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
     public void uzupelnijKarty(){
@@ -58,21 +68,56 @@ public class GameWindow extends javax.swing.JFrame {
         }
     }
     
+    public void setLabelText(String text){
+        this.jLabel1.setText(text);
+    }
+    
+    public static void dodajWybor(Card karta){
+        
+        selected++;
+        if (selected == 1) sCard1 = karta;
+                
+        System.out.println("selected wynosi: "+selected);
+        if (selected == 2) {
+            sCard2 = karta;
+            if (Card.equal(sCard1, sCard2)){
+                System.out.println("Parka!");
+            }
+            else {
+                System.out.println("To nie jest parka");
+            }
+            selected = 0;
+            try {
+                Thread.sleep(2000);
+            }
+            catch (Exception ex){
+                ex.printStackTrace();
+            }
+            for (Card c : deal){
+                c.unreveal();
+            }
+            for (CardButt cb : butts){
+                cb.setEnabled(true);
+                cb.setSelected(false);
+                
+            }
+        }
+    }
+    
     public void wyswietlPrzyciski(int ilosc){
-        CardButt[] butts = new CardButt[30];
-        JButton[] przyciski = new JButton[ilosc];
-        JLabel[] labels = new JLabel[ilosc];
         
         jPanel1.setLayout(new java.awt.GridLayout(6, 5, 0, 0));
         
         for (int i = 0; i < 30; i++){
             butts[i] = new CardButt(deal.get(i));
             this.jPanel1.add(butts[i]);
-        }
-        
-        
-        
+        }  
     }
+    
+    private int getSelected(){
+        return selected;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -109,7 +154,9 @@ public class GameWindow extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -33,9 +33,12 @@ public class CardButt extends JToggleButton implements ActionListener {
         Dimension dim = new Dimension(80, 80);
         this.setPreferredSize(dim);
         this.setMinimumSize(dim);
+        this.setSelected(false);
         this.setIcon(icon);
         this.setSelectedIcon(icon2);
         
+        if (this.isSelected()) System.out.println("Przycisk jest wybrany :o");
+        else System.out.println("Przycisk ustawiony jako wyłączony");
         addActionListener(this);
     }
     
@@ -44,9 +47,10 @@ public class CardButt extends JToggleButton implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent ae) {
         System.out.println("Wywołuje się actionPerformed z CardButt");
+        if (karta.isRevealed()) System.out.println("Karta jest odkryta");
+        else System.out.println("Karta jest zakryta");
        
-       
-        if (this.isSelected()){
+        if (!this.isSelected()){
             if (karta.isRevealed()) {
                 System.out.println("Karta jest odkryta - zasłaniam");
                 karta.unreveal();
@@ -57,22 +61,26 @@ public class CardButt extends JToggleButton implements ActionListener {
                 ImageIcon img = new ImageIcon(karta.bgpath+".jpg");
             
                 System.out.println("Szerokosc icon to: "+ikonabg.getIconWidth());
-        }        
+            }        
         }
-        if (!this.isSelected()){
-        if (!karta.isRevealed()){
-            System.out.println("Karta jest zasłonięta - odkrywam");
-            karta.reveal();
-            if (!karta.isRevealed()) System.out.println("Chyba się nie odkryła");
-            else System.out.println("Karta odsłonięta poprawnie");
-            System.out.println("karta.getPath() wynosi: "+karta.getPath());
-            ImageIcon ikona = new ImageIcon(karta.getPath());
+        if (this.isSelected()){
+            if (!karta.isRevealed()){
+                System.out.println("Karta jest zasłonięta - odkrywam");
+                karta.reveal();
+                if (!karta.isRevealed()) System.out.println("Chyba się nie odkryła");
+                else System.out.println("Karta odsłonięta poprawnie");
+                System.out.println("karta.getPath() wynosi: "+karta.getPath());
+                ImageIcon ikona = new ImageIcon(karta.getPath());
+                System.out.println("Wykonuję dodajWybor()");
+                this.setEnabled(false);
+                GameWindow.dodajWybor(karta);
+                
             
             
-            ImageIcon img = new ImageIcon(karta.fgpath+".jpg");
+                ImageIcon img = new ImageIcon(karta.fgpath+".jpg");
             
-            System.out.println("Szerokosc icon to: "+ikonafg.getIconWidth());
-        }
+                System.out.println("Szerokosc icon2 to: "+ikonafg.getIconWidth());
+            }
         }
        // this.setIcon(icon);
        // this.setPressedIcon(icon2);
