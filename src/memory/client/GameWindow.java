@@ -34,7 +34,7 @@ public class GameWindow extends javax.swing.JFrame {
         @Override
         public void run(){
             System.out.println("Wątek się uruchamia się");
-            int numer1, numer2, numergracza, nastepny;
+            int numer1=0, numer2=0, numergracza=0, nastepny=0;
             double numera, numerb, numergraczab, nastepnyb;
             byte[] bufor = new byte[64];
             
@@ -62,7 +62,7 @@ public class GameWindow extends javax.swing.JFrame {
                     System.out.println("messages[3]: "+messages[3]);
                     
                     // parse the message
-                        try {
+                    try {
                         numergraczab = Double.parseDouble(messages[0]);
                         numera = Double.parseDouble(messages[1]);
                         numerb = Double.parseDouble(messages[2]);
@@ -74,16 +74,57 @@ public class GameWindow extends javax.swing.JFrame {
                         
                         System.out.println("Ruch wykonywał gracz "+numergracza+", wybrał karty "+numer1+" i "
                                 + numer2+". Następny ruch wykona "+ nastepny);
-                        }
+                    }
                         
-                        catch(NumberFormatException ex){
+                    catch(NumberFormatException ex){
                             ex.printStackTrace();
+                    }
+                    // klient wykonuje ruch
+                        if (nastepny == Game.numergracza){
+                            GameWindow.this.jLabel4.setText("Twój ruch");
                         }
-                    //
-                }
-                catch (IOException ex){
-                    ex.printStackTrace();
-                }
+                        // ruch wykonuje inny klient
+                      /*  else {
+                            GameWindow.this.jLabel4.setText("Ruch: Gracz "+nastepny);
+                            GameWindow.this.dodajWybor(butts[numer1].karta, numer1);
+                            GameWindow.this.dodajWybor(butts[numer2].karta, numer2);
+                            try {
+                                Thread.sleep(1000);
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                        }*/
+                        
+                        else {
+                            GameWindow.this.jLabel4.setText("Ruch: Gracz "+nastepny);
+                            GameWindow.this.zaslonKarty();
+                            GameWindow.this.butts[numer1].setSelected(true);
+                            GameWindow.this.butts[numer2].setSelected(true);
+                            
+                            try {
+                                Thread.sleep(1000);
+                                
+                                if (Card.equal(GameWindow.this.butts[numer1].karta, GameWindow.this.butts[numer2].karta)){
+                                    GameWindow.this.butts[numer1].karta.setTaken(true);
+                                    GameWindow.this.butts[numer2].karta.setTaken(true);
+                                    GameWindow.this.butts[numer1].setSelected(true);
+                                    GameWindow.this.butts[numer2].setSelected(true);
+                                }
+                                else {
+                                    GameWindow.this.butts[numer1].setSelected(false);
+                                    GameWindow.this.butts[numer2].setSelected(false);
+                                }
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
+                        } 
+                    }
+
+                    catch (IOException ex){
+                        ex.printStackTrace();
+                    }
             }
         }
     }
@@ -115,7 +156,7 @@ public class GameWindow extends javax.swing.JFrame {
         this.setIcon(icon);
         this.setSelectedIcon(icon2);
         ImageIcon dis = new ImageIcon("16.jpg");
-        this.setDisabledIcon(icon2);
+        this.setDisabledIcon(icon);
         this.setDisabledSelectedIcon(icon2);
         
         
@@ -139,6 +180,7 @@ public class GameWindow extends javax.swing.JFrame {
         if (karta.isRevealed()) System.out.println("Karta jest odkryta");
         else System.out.println("Karta jest zakryta");
        
+        // zasłonięcie karty
         if (!this.isSelected()){
             if (karta.isRevealed()) {
                 System.out.println("Karta jest odkryta - zasłaniam");
@@ -160,6 +202,8 @@ public class GameWindow extends javax.swing.JFrame {
                 else System.out.println("Nikt nie odkrył jeszcze tej karty");
             }        
         }
+        
+        // odsłoń kartę
         if (this.isSelected()){
             if (!karta.isRevealed()){
                 System.out.println("Karta jest zasłonięta - odkrywam");
@@ -169,13 +213,13 @@ public class GameWindow extends javax.swing.JFrame {
                 System.out.println("karta.getPath() wynosi: "+karta.getPath());
                 ImageIcon ikona = new ImageIcon(karta.getPath());
                 System.out.println("Wykonuję dodajWybor()");
-                try {
+               /* try {
                     Thread.sleep(500);
                 }
                 catch (Exception ex){
                     ex.printStackTrace();
                     
-                }
+                }*/
                 this.setEnabled(false);
                 GameWindow.this.dodajWybor(karta, pozycja);
                                             
@@ -298,7 +342,12 @@ public class GameWindow extends javax.swing.JFrame {
             }
             else {
                 System.out.println("To nie jest parka");
-                this.sendChoice(Game.numergracza, sNumber1, sNumber2, (Game.numergracza+1) %3);
+                if (Game.numergracza == 2){
+                    this.sendChoice(Game.numergracza, sNumber1, sNumber2, 0);
+                }
+                else {
+                    this.sendChoice(Game.numergracza, sNumber1, sNumber2, Game.numergracza+1);
+                }
             }
             selected = 0;
             try {
@@ -349,7 +398,28 @@ public class GameWindow extends javax.swing.JFrame {
        PrintWriter pr = MemoryClient.out;
        pr.println(numer+"|"+pozycja1+"|"+pozycja2+"|"+zmianakolejki);
                   
-   }
+    }
+    
+    private void zaslonKarty(){
+        for (Card c : deal){
+                c.unreveal();
+        }
+        for (CardButt cb : butts){
+            if (cb.cardTaken()){
+                System.out.println("Karta została już zdobyta - ustawiam disabled i not selected");
+                cb.setEnabled(false);
+                cb.setSelected(true);
+            }
+            else {
+                System.out.println("Karta nie została jeszcze zdobyta - ustawiam disabled i not selected");
+                cb.setEnabled(false);
+                cb.setSelected(false);
+            }
+                
+        }
+        
+    }
+    
     
     /**
      * @param args the command line arguments
