@@ -19,6 +19,8 @@ public class Game {
     private static int selected = 0;
     private static Card sCard1, sCard2;
     public static int numergracza;
+    private static int wynik;
+    private static int mojwynik;
     
     /*******************************/
     
@@ -156,5 +158,12 @@ public class Game {
        MemoryClient.numergracza = numergracza2;
        numergracza = numergracza2;
    }
-    
+   
+   public static void increaseScore(){
+       mojwynik++;
+   }
+   
+   public static int getMyScore(){
+       return mojwynik;
+   }
 }

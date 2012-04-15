@@ -82,6 +82,7 @@ public class GameWindow extends javax.swing.JFrame {
             sCard2 = karta;
             if (Card.equal(sCard1, sCard2)){
                 System.out.println("Parka!");
+                
                 sCard1.setTaken(true);
                 sCard2.setTaken(true);
             }
@@ -124,6 +125,12 @@ public class GameWindow extends javax.swing.JFrame {
     
     private int getSelected(){
         return selected;
+    }
+    
+    private void zwiekszWynik(){
+        Game.increaseScore();
+        int wynike = Game.getMyScore();
+        this.jLabel1.setText(String.valueOf(wynike));
     }
     
     /**
