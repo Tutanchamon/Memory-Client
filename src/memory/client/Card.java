@@ -5,12 +5,14 @@ public class Card {
     private boolean revealed;
     public String bgpath;
     public String fgpath;
+    private boolean taken;
     
     public Card(int number, String fg) {
         no = number;
         revealed = false;
         fgpath = fg;
         bgpath = "0";
+        taken = false;
     }
     
     public Card(Card c) {
@@ -56,5 +58,14 @@ public class Card {
         }
         else path = this.bgpath+".jpg";
         return path;
+    }
+    
+    public boolean isTaken(){
+        if (taken) return true;
+        else return false;
+    }
+    
+    public void setTaken(boolean b){
+        taken = b;
     }
 }

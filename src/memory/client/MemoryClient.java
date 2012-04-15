@@ -26,6 +26,7 @@ public class MemoryClient {
    public static InputStream is;
    public static int[] tablica;
    public static int numergracza;
+   public static Game gra;
     
             
     public static void main(String[] args) {
@@ -41,6 +42,7 @@ public class MemoryClient {
         out = sc.getOut();
         sock = sc.getSock();
         GlowneOkienko go = new GlowneOkienko();
+        gra = new Game();
         go.setVisible(true);
         GameWindow gw = new GameWindow();
         gw.setVisible(true);

@@ -18,7 +18,16 @@ public class Game {
     /*******************************/
     private static int selected = 0;
     private static Card sCard1, sCard2;
+    public static int numergracza;
+    
     /*******************************/
+    
+    Game(){
+        fileLoop();
+        getArrayElements();
+        getMyNumber();
+    }
+    
     private static void getArrayElements(){
         int ilosc = 30;
         int[] tablica = new int[30];
@@ -125,38 +134,27 @@ public class Game {
                    ex.printStackTrace();
                 }
        
-   }
+   }  
    
-   public static void dodajWybor(Card karta){
-        
-        selected++;
-        if (selected == 1) sCard1 = karta;
-                
-        System.out.println("selected wynosi: "+selected);
-        if (selected == 2) {
-            sCard2 = karta;
-            if (Card.equal(sCard1, sCard2)){
-                System.out.println("Parka!");
-            }
-            else {
-                System.out.println("To nie jest parka");
-            }
-            selected = 0;
-            try {
-                Thread.sleep(2000);
-            }
-            catch (Exception ex){
-                ex.printStackTrace();
-            }
-            for (Card c : deal){
-                c.unreveal();
-            }
-            for (CardButt cb : butts){
-                cb.setEnabled(true);
-                cb.setSelected(false);
-                
-            }
-        }
-    }
+   private void getMyNumber(){
+       byte[] bufor = new byte[2];
+       InputStream buf = MemoryClient.is;
+       
+       try {
+        int received = buf.read(bufor, 0, bufor.length);
+       }
+       catch (IOException ex){
+           
+           ex.printStackTrace();
+       }
+       char[] charArr = (new String(bufor)).toCharArray();
+       String ps = String.copyValueOf(charArr);
+       
+       double numergracza1 = Double.parseDouble(ps);
+       int numergracza2 = (int) numergracza1;
+       
+       MemoryClient.numergracza = numergracza2;
+       numergracza = numergracza2;
+   }
     
 }

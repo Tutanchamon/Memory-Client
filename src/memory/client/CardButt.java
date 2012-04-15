@@ -36,13 +36,20 @@ public class CardButt extends JToggleButton implements ActionListener {
         this.setSelected(false);
         this.setIcon(icon);
         this.setSelectedIcon(icon2);
+        ImageIcon dis = new ImageIcon("16.jpg");
+        this.setDisabledIcon(dis);
+        this.setDisabledSelectedIcon(dis);
+        
         
         if (this.isSelected()) System.out.println("Przycisk jest wybrany :o");
         else System.out.println("Przycisk ustawiony jako wyłączony");
         addActionListener(this);
     }
     
-    
+    public boolean cardTaken(){
+        if (karta.isTaken()) return true;
+        else return false;
+    }
 
     @Override
     public void actionPerformed(ActionEvent ae) {
@@ -59,8 +66,16 @@ public class CardButt extends JToggleButton implements ActionListener {
                 System.out.println("karta.getPath() wynosi: "+karta.getPath());
                 ImageIcon ikona = new ImageIcon(karta.getPath());
                 ImageIcon img = new ImageIcon(karta.bgpath+".jpg");
-            
+                
                 System.out.println("Szerokosc icon to: "+ikonabg.getIconWidth());
+                if (karta.isTaken()){
+                    ImageIcon dis = new ImageIcon("16.jpg");
+                    System.out.println("Ktoś już zdobył tę kartę");
+                    this.setDisabledIcon(dis);
+                    this.setDisabledSelectedIcon(dis);
+                    
+                }
+                else System.out.println("Nikt nie odkrył jeszcze tej karty");
             }        
         }
         if (this.isSelected()){
@@ -72,6 +87,13 @@ public class CardButt extends JToggleButton implements ActionListener {
                 System.out.println("karta.getPath() wynosi: "+karta.getPath());
                 ImageIcon ikona = new ImageIcon(karta.getPath());
                 System.out.println("Wykonuję dodajWybor()");
+                try {
+                    Thread.sleep(500);
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                    
+                }
                 this.setEnabled(false);
                 GameWindow.dodajWybor(karta);
                 
@@ -80,6 +102,9 @@ public class CardButt extends JToggleButton implements ActionListener {
                 ImageIcon img = new ImageIcon(karta.fgpath+".jpg");
             
                 System.out.println("Szerokosc icon2 to: "+ikonafg.getIconWidth());
+                
+                if (karta.isTaken()) System.out.println("Ktoś już zdobył tę kartę");
+                else System.out.println("Nikt nie odkrył jeszcze tej karty");
             }
         }
        // this.setIcon(icon);

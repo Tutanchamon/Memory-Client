@@ -41,10 +41,10 @@ this.jTextArea1.setText(w);
 } catch (IOException ex) {
 Logger.getLogger(GlowneOkienko.class.getName()).log(Level.SEVERE, null, ex);
 }*/
-        fileLoop();
+    //    fileLoop();
         //getFile();
-        getArrayElements();
-        getMyNumber();
+    //    getArrayElements();
+    //    getMyNumber();
         
     }
 
@@ -126,7 +126,7 @@ ex.printStackTrace();
        this.jTextArea1.append("\n"+s);
    }
    
-   private void getMyNumber(){
+ /*  private void getMyNumber(){
        byte[] bufor = new byte[2];
        InputStream buf = MemoryClient.is;
        
@@ -145,10 +145,10 @@ ex.printStackTrace();
        
        MemoryClient.numergracza = numergracza2;
        this.addMessage("Mój numer to: "+MemoryClient.numergracza);
-   } 
+   } */
    
    
-   private void getArrayElements(){
+ /* private void getArrayElements(){
         int ilosc = 30;
         
         int[] tablica = new int[30];
@@ -161,7 +161,7 @@ ex.printStackTrace();
             /*System.out.print("Zawartość bufora: ");
             System.out.print(bufor[i]);
             char mychar = (char) bufor[i];
-            System.out.print(mychar);*/
+            System.out.print(mychar);
             
             System.out.println();
             char[] charArr = (new String(bufor)).toCharArray();
@@ -180,8 +180,8 @@ ex.printStackTrace();
             }
             
         }
-    }
-   private void fileLoop(){
+    } */
+ /*  private void fileLoop(){
        PrintWriter pr = MemoryClient.out;
        this.addMessage("Wchodzę do pętli w fileLoop()");
        System.out.println("Wchodzę do pętli w fileLoop()");
@@ -194,11 +194,11 @@ ex.printStackTrace();
        
        //System.out.println("Wysyłam ENOUGH");
        //pr.println("ENOUGH");
-   } 
+   } */
    
    
     
-   private void getFile(String filename){
+  /* private void getFile(String filename){
        double rozmiar;
        
        try {
@@ -283,7 +283,7 @@ System.out.println("Rozmiartemp: "+rozmiartemp);
 rozmiar = Double.parseDouble(rozmiartemp);
 System.out.println("Rozmiar pliku do pobrania wynosi: "+rozmiar);
 count = 0;
-}*/
+}
            
        }
        catch (IOException ex){
@@ -294,7 +294,7 @@ count = 0;
            ex.printStackTrace();
        }
        
-   }
+   } */
     
     
     /**

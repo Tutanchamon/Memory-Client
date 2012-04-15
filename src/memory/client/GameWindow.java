@@ -82,6 +82,8 @@ public class GameWindow extends javax.swing.JFrame {
             sCard2 = karta;
             if (Card.equal(sCard1, sCard2)){
                 System.out.println("Parka!");
+                sCard1.setTaken(true);
+                sCard2.setTaken(true);
             }
             else {
                 System.out.println("To nie jest parka");
@@ -97,8 +99,14 @@ public class GameWindow extends javax.swing.JFrame {
                 c.unreveal();
             }
             for (CardButt cb : butts){
-                cb.setEnabled(true);
-                cb.setSelected(false);
+                if (cb.cardTaken()){
+                    cb.setEnabled(false);
+                    cb.setSelected(true);
+                }
+                else {
+                    cb.setEnabled(true);
+                    cb.setSelected(false);
+                }
                 
             }
         }
