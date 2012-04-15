@@ -15,7 +15,8 @@ import javax.swing.JToggleButton;
  *
  * @author blazej
  */
-public class CardButt extends JToggleButton implements ActionListener {
+/* *******************
+ * public class CardButt extends JToggleButton implements ActionListener {
     
     private Card karta;
     ImageIcon ikonabg;
@@ -115,3 +116,4 @@ public class CardButt extends JToggleButton implements ActionListener {
     }
     
 }
+/*******************/

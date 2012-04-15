@@ -16,11 +16,13 @@ import java.io.PrintWriter;
  */
 public class Game {
     /*******************************/
-    private static int selected = 0;
-    private static Card sCard1, sCard2;
+    
     public static int numergracza;
-    private static int wynik;
     private static int mojwynik;
+    private static int[] wynik = {0, 0, 0};
+    private static int zdobyte = 0;
+    public static String oplayer1 = "";
+    public static String oplayer2 = "";
     
     /*******************************/
     
@@ -28,6 +30,25 @@ public class Game {
         fileLoop();
         getArrayElements();
         getMyNumber();
+        setOtherPlayersNumbers();
+        
+    }
+    
+    private static void setOtherPlayersNumbers(){
+        switch (numergracza){
+            case 0:
+                oplayer1 = "Gracz 1";
+                oplayer2 = "Gracz 2";
+                break;
+            case 1:
+                oplayer1 = "Gracz 0";
+                oplayer2 = "Gracz 2";
+                break;
+            case 2:
+                oplayer1 = "Gracz 0";
+                oplayer2 = "Gracz 1";
+                break;
+        }
     }
     
     private static void getArrayElements(){
@@ -164,6 +185,22 @@ public class Game {
    }
    
    public static int getMyScore(){
-       return mojwynik;
+       return wynik[numergracza];
+   }
+   
+   public static int getTaken(){
+       return zdobyte;
+   }
+   
+   public static void increaseTaken(int gracz){
+       wynik[gracz]++;
+       zdobyte++;
+   }
+   
+   public static void sendChoice(int numer, int pozycja1, int pozycja2, int zmianakolejki){
+       System.out.println("Wysyłam ciąg znaków: "+numer+"|"+pozycja1+"|"+pozycja2+"|"+zmianakolejki);
+       PrintWriter pr = MemoryClient.out;
+       pr.println(numer+pozycja1+pozycja2+zmianakolejki);
+                  
    }
 }
